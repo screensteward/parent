@@ -7,6 +7,8 @@ import 'screens/extensions.dart';
 import 'screens/login.dart';
 import 'screens/onboarding/wizard.dart';
 import 'screens/policy_editor.dart';
+import 'screens/reports.dart';
+import 'screens/settings.dart';
 import 'state/auth_controller.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -53,6 +55,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/extensions',
         builder: (_, _) => const ExtensionsScreen(),
       ),
+      GoRoute(path: '/reports', builder: (_, _) => const ReportsScreen()),
+      GoRoute(path: '/settings', builder: (_, _) => const SettingsScreen()),
     ],
   );
 });

@@ -164,6 +164,34 @@ Map<String, dynamic> _$PolicyViewToJson(_PolicyView instance) =>
       'active_until': instance.activeUntil?.toIso8601String(),
     };
 
+_DailyUsage _$DailyUsageFromJson(Map<String, dynamic> json) => _DailyUsage(
+  date: DateTime.parse(json['date'] as String),
+  minutes: (json['minutes'] as num).toInt(),
+);
+
+Map<String, dynamic> _$DailyUsageToJson(_DailyUsage instance) =>
+    <String, dynamic>{
+      'date': instance.date.toIso8601String(),
+      'minutes': instance.minutes,
+    };
+
+_UsageReport _$UsageReportFromJson(Map<String, dynamic> json) => _UsageReport(
+  childId: json['child_id'] as String,
+  from: DateTime.parse(json['from'] as String),
+  to: DateTime.parse(json['to'] as String),
+  days: (json['days'] as List<dynamic>)
+      .map((e) => DailyUsage.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$UsageReportToJson(_UsageReport instance) =>
+    <String, dynamic>{
+      'child_id': instance.childId,
+      'from': instance.from.toIso8601String(),
+      'to': instance.to.toIso8601String(),
+      'days': instance.days,
+    };
+
 _PendingExtension _$PendingExtensionFromJson(Map<String, dynamic> json) =>
     _PendingExtension(
       id: json['id'] as String,

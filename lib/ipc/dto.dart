@@ -128,6 +128,28 @@ Object _scopeFromJson(Object? v) {
 }
 
 @freezed
+abstract class DailyUsage with _$DailyUsage {
+  const factory DailyUsage({
+    required DateTime date,
+    required int minutes,
+  }) = _DailyUsage;
+  factory DailyUsage.fromJson(Map<String, dynamic> j) =>
+      _$DailyUsageFromJson(j);
+}
+
+@freezed
+abstract class UsageReport with _$UsageReport {
+  const factory UsageReport({
+    @JsonKey(name: 'child_id') required String childId,
+    required DateTime from,
+    required DateTime to,
+    required List<DailyUsage> days,
+  }) = _UsageReport;
+  factory UsageReport.fromJson(Map<String, dynamic> j) =>
+      _$UsageReportFromJson(j);
+}
+
+@freezed
 abstract class PendingExtension with _$PendingExtension {
   const factory PendingExtension({
     required String id,

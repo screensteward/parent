@@ -4,6 +4,7 @@ import 'auth_controller.dart';
 import 'child_status_controller.dart';
 import 'extension_controller.dart';
 import 'policy_controller.dart';
+import 'usage_report_controller.dart';
 
 /// Listens for server-pushed notifications and invalidates the dependent
 /// Riverpod providers so views refresh on policy / usage / extension moves.
@@ -16,6 +17,7 @@ final ipcNotificationFanOutProvider = StreamProvider<void>((ref) async* {
     switch (evt.method) {
       case 'onUsageUpdate':
         ref.invalidate(childStatusProvider);
+        ref.invalidate(usageReportProvider);
       case 'onPolicyChanged':
         ref.invalidate(policiesProvider);
         ref.invalidate(childStatusProvider);

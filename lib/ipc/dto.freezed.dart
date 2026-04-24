@@ -2507,6 +2507,550 @@ as DateTime?,
 
 
 /// @nodoc
+mixin _$DailyUsage {
+
+ DateTime get date; int get minutes;
+/// Create a copy of DailyUsage
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DailyUsageCopyWith<DailyUsage> get copyWith => _$DailyUsageCopyWithImpl<DailyUsage>(this as DailyUsage, _$identity);
+
+  /// Serializes this DailyUsage to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DailyUsage&&(identical(other.date, date) || other.date == date)&&(identical(other.minutes, minutes) || other.minutes == minutes));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,date,minutes);
+
+@override
+String toString() {
+  return 'DailyUsage(date: $date, minutes: $minutes)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DailyUsageCopyWith<$Res>  {
+  factory $DailyUsageCopyWith(DailyUsage value, $Res Function(DailyUsage) _then) = _$DailyUsageCopyWithImpl;
+@useResult
+$Res call({
+ DateTime date, int minutes
+});
+
+
+
+
+}
+/// @nodoc
+class _$DailyUsageCopyWithImpl<$Res>
+    implements $DailyUsageCopyWith<$Res> {
+  _$DailyUsageCopyWithImpl(this._self, this._then);
+
+  final DailyUsage _self;
+  final $Res Function(DailyUsage) _then;
+
+/// Create a copy of DailyUsage
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? minutes = null,}) {
+  return _then(_self.copyWith(
+date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime,minutes: null == minutes ? _self.minutes : minutes // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [DailyUsage].
+extension DailyUsagePatterns on DailyUsage {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DailyUsage value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DailyUsage() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DailyUsage value)  $default,){
+final _that = this;
+switch (_that) {
+case _DailyUsage():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DailyUsage value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DailyUsage() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime date,  int minutes)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DailyUsage() when $default != null:
+return $default(_that.date,_that.minutes);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime date,  int minutes)  $default,) {final _that = this;
+switch (_that) {
+case _DailyUsage():
+return $default(_that.date,_that.minutes);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime date,  int minutes)?  $default,) {final _that = this;
+switch (_that) {
+case _DailyUsage() when $default != null:
+return $default(_that.date,_that.minutes);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _DailyUsage implements DailyUsage {
+  const _DailyUsage({required this.date, required this.minutes});
+  factory _DailyUsage.fromJson(Map<String, dynamic> json) => _$DailyUsageFromJson(json);
+
+@override final  DateTime date;
+@override final  int minutes;
+
+/// Create a copy of DailyUsage
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DailyUsageCopyWith<_DailyUsage> get copyWith => __$DailyUsageCopyWithImpl<_DailyUsage>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$DailyUsageToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DailyUsage&&(identical(other.date, date) || other.date == date)&&(identical(other.minutes, minutes) || other.minutes == minutes));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,date,minutes);
+
+@override
+String toString() {
+  return 'DailyUsage(date: $date, minutes: $minutes)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DailyUsageCopyWith<$Res> implements $DailyUsageCopyWith<$Res> {
+  factory _$DailyUsageCopyWith(_DailyUsage value, $Res Function(_DailyUsage) _then) = __$DailyUsageCopyWithImpl;
+@override @useResult
+$Res call({
+ DateTime date, int minutes
+});
+
+
+
+
+}
+/// @nodoc
+class __$DailyUsageCopyWithImpl<$Res>
+    implements _$DailyUsageCopyWith<$Res> {
+  __$DailyUsageCopyWithImpl(this._self, this._then);
+
+  final _DailyUsage _self;
+  final $Res Function(_DailyUsage) _then;
+
+/// Create a copy of DailyUsage
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? date = null,Object? minutes = null,}) {
+  return _then(_DailyUsage(
+date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime,minutes: null == minutes ? _self.minutes : minutes // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$UsageReport {
+
+@JsonKey(name: 'child_id') String get childId; DateTime get from; DateTime get to; List<DailyUsage> get days;
+/// Create a copy of UsageReport
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UsageReportCopyWith<UsageReport> get copyWith => _$UsageReportCopyWithImpl<UsageReport>(this as UsageReport, _$identity);
+
+  /// Serializes this UsageReport to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UsageReport&&(identical(other.childId, childId) || other.childId == childId)&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to)&&const DeepCollectionEquality().equals(other.days, days));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,childId,from,to,const DeepCollectionEquality().hash(days));
+
+@override
+String toString() {
+  return 'UsageReport(childId: $childId, from: $from, to: $to, days: $days)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UsageReportCopyWith<$Res>  {
+  factory $UsageReportCopyWith(UsageReport value, $Res Function(UsageReport) _then) = _$UsageReportCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'child_id') String childId, DateTime from, DateTime to, List<DailyUsage> days
+});
+
+
+
+
+}
+/// @nodoc
+class _$UsageReportCopyWithImpl<$Res>
+    implements $UsageReportCopyWith<$Res> {
+  _$UsageReportCopyWithImpl(this._self, this._then);
+
+  final UsageReport _self;
+  final $Res Function(UsageReport) _then;
+
+/// Create a copy of UsageReport
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? childId = null,Object? from = null,Object? to = null,Object? days = null,}) {
+  return _then(_self.copyWith(
+childId: null == childId ? _self.childId : childId // ignore: cast_nullable_to_non_nullable
+as String,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as DateTime,to: null == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
+as DateTime,days: null == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
+as List<DailyUsage>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UsageReport].
+extension UsageReportPatterns on UsageReport {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UsageReport value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UsageReport() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UsageReport value)  $default,){
+final _that = this;
+switch (_that) {
+case _UsageReport():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UsageReport value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UsageReport() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'child_id')  String childId,  DateTime from,  DateTime to,  List<DailyUsage> days)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UsageReport() when $default != null:
+return $default(_that.childId,_that.from,_that.to,_that.days);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'child_id')  String childId,  DateTime from,  DateTime to,  List<DailyUsage> days)  $default,) {final _that = this;
+switch (_that) {
+case _UsageReport():
+return $default(_that.childId,_that.from,_that.to,_that.days);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'child_id')  String childId,  DateTime from,  DateTime to,  List<DailyUsage> days)?  $default,) {final _that = this;
+switch (_that) {
+case _UsageReport() when $default != null:
+return $default(_that.childId,_that.from,_that.to,_that.days);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _UsageReport implements UsageReport {
+  const _UsageReport({@JsonKey(name: 'child_id') required this.childId, required this.from, required this.to, required final  List<DailyUsage> days}): _days = days;
+  factory _UsageReport.fromJson(Map<String, dynamic> json) => _$UsageReportFromJson(json);
+
+@override@JsonKey(name: 'child_id') final  String childId;
+@override final  DateTime from;
+@override final  DateTime to;
+ final  List<DailyUsage> _days;
+@override List<DailyUsage> get days {
+  if (_days is EqualUnmodifiableListView) return _days;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_days);
+}
+
+
+/// Create a copy of UsageReport
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UsageReportCopyWith<_UsageReport> get copyWith => __$UsageReportCopyWithImpl<_UsageReport>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UsageReportToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UsageReport&&(identical(other.childId, childId) || other.childId == childId)&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to)&&const DeepCollectionEquality().equals(other._days, _days));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,childId,from,to,const DeepCollectionEquality().hash(_days));
+
+@override
+String toString() {
+  return 'UsageReport(childId: $childId, from: $from, to: $to, days: $days)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UsageReportCopyWith<$Res> implements $UsageReportCopyWith<$Res> {
+  factory _$UsageReportCopyWith(_UsageReport value, $Res Function(_UsageReport) _then) = __$UsageReportCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'child_id') String childId, DateTime from, DateTime to, List<DailyUsage> days
+});
+
+
+
+
+}
+/// @nodoc
+class __$UsageReportCopyWithImpl<$Res>
+    implements _$UsageReportCopyWith<$Res> {
+  __$UsageReportCopyWithImpl(this._self, this._then);
+
+  final _UsageReport _self;
+  final $Res Function(_UsageReport) _then;
+
+/// Create a copy of UsageReport
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? childId = null,Object? from = null,Object? to = null,Object? days = null,}) {
+  return _then(_UsageReport(
+childId: null == childId ? _self.childId : childId // ignore: cast_nullable_to_non_nullable
+as String,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as DateTime,to: null == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
+as DateTime,days: null == days ? _self._days : days // ignore: cast_nullable_to_non_nullable
+as List<DailyUsage>,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$PendingExtension {
 
  String get id;@JsonKey(name: 'child_id') String get childId;@JsonKey(name: 'granted_by_parent_id') String? get grantedByParentId; String get status; String? get reason;@JsonKey(name: 'duration_minutes') int? get durationMinutes;@JsonKey(name: 'granted_at') DateTime? get grantedAt;@JsonKey(name: 'expires_at') DateTime? get expiresAt;@JsonKey(name: 'created_at') DateTime get createdAt;

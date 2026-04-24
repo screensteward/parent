@@ -26,6 +26,18 @@ class DashboardScreen extends ConsumerWidget {
         title: const Text('ScreenSteward — Parent'),
         actions: [
           IconButton(
+            key: const Key('dashboard-reports'),
+            tooltip: "Rapport d'usage",
+            icon: const Icon(Icons.bar_chart),
+            onPressed: () => GoRouter.of(context).push('/reports'),
+          ),
+          IconButton(
+            key: const Key('dashboard-settings'),
+            tooltip: 'Paramètres',
+            icon: const Icon(Icons.settings),
+            onPressed: () => GoRouter.of(context).push('/settings'),
+          ),
+          IconButton(
             key: const Key('dashboard-logout'),
             tooltip: 'Se déconnecter',
             icon: const Icon(Icons.logout),
