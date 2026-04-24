@@ -1,6 +1,5 @@
 .dart_tool/
 build/
-pubspec.lock
 .flutter-plugins
 .flutter-plugins-dependencies
 android/.gradle/
@@ -9,3 +8,6 @@ macos/Pods/
 .DS_Store
 .idea/
 .vscode/
+
+# FVM Version Cache
+.fvm/
