@@ -18,28 +18,33 @@ class AuthState {
   const AuthState({required this.authenticated});
 }
 
-class AuthController extends AsyncNotifier<AuthState> {
+/// Kept synchronous (plain [Notifier]) so the initial `build` value is
+/// available immediately; an `AsyncNotifier` would race with an explicit
+/// state flip right after `family.bootstrap` (build's future would resolve
+/// after `markAuthenticated` and clobber it back to unauthenticated).
+class AuthController extends Notifier<AuthState> {
   @override
-  Future<AuthState> build() async => const AuthState(authenticated: false);
+  AuthState build() => const AuthState(authenticated: false);
 
   Future<void> login(String password) async {
-    state = const AsyncLoading();
-    try {
-      final c = await ref.read(ipcClientProvider.future);
-      await c.call('auth.login', {'password': password});
-      state = const AsyncData(AuthState(authenticated: true));
-    } catch (e, st) {
-      state = AsyncError(e, st);
-      rethrow;
-    }
+    final c = await ref.read(ipcClientProvider.future);
+    await c.call('auth.login', {'password': password});
+    state = const AuthState(authenticated: true);
   }
 
   Future<void> logout() async {
     final c = await ref.read(ipcClientProvider.future);
     await c.call('auth.logout', const {});
-    state = const AsyncData(AuthState(authenticated: false));
+    state = const AuthState(authenticated: false);
+  }
+
+  /// family.bootstrap authenticates the connection server-side without ever
+  /// going through auth.login, so this mirrors that flip on the client.
+  void markAuthenticated() {
+    state = const AuthState(authenticated: true);
   }
 }
 
-final authControllerProvider =
-    AsyncNotifierProvider<AuthController, AuthState>(AuthController.new);
+final authControllerProvider = NotifierProvider<AuthController, AuthState>(
+  AuthController.new,
+);

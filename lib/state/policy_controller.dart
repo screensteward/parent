@@ -8,8 +8,7 @@ final policiesProvider = FutureProvider.family<List<PolicyView>, String>((
   ref,
   childId,
 ) async {
-  final auth = ref.watch(authControllerProvider);
-  if (auth is! AsyncData<AuthState> || !auth.value.authenticated) return const [];
+  if (!ref.watch(authControllerProvider).authenticated) return const [];
 
   final c = await ref.watch(ipcClientProvider.future);
   final raw = await c.call('policy.list', {'child_id': childId});

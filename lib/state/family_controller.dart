@@ -6,8 +6,7 @@ import 'auth_controller.dart';
 /// Resolves to the current [FamilySnapshot] once authentication succeeds,
 /// or `null` while unauthenticated / if the daemon has no family yet.
 final familyProvider = FutureProvider<FamilySnapshot?>((ref) async {
-  final auth = ref.watch(authControllerProvider);
-  if (auth is! AsyncData<AuthState> || !auth.value.authenticated) return null;
+  if (!ref.watch(authControllerProvider).authenticated) return null;
 
   final c = await ref.watch(ipcClientProvider.future);
   final raw = await c.call('family.get', const {});
