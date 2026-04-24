@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../ipc/dto.dart';
+import '../l10n/app_localizations.dart';
 import '../state/auth_controller.dart';
 import '../state/core_status_controller.dart';
 
@@ -11,8 +12,9 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Paramètres')),
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: const [
@@ -32,6 +34,7 @@ class _CoreStatusCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final status = ref.watch(coreStatusProvider);
     return Card(
       child: Padding(
@@ -42,13 +45,13 @@ class _CoreStatusCard extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  'Statut du cœur',
+                  l10n.settingsCoreSection,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Spacer(),
                 IconButton(
                   key: const Key('settings-core-refresh'),
-                  tooltip: 'Rafraîchir',
+                  tooltip: l10n.commonRefresh,
                   icon: const Icon(Icons.refresh),
                   onPressed: () => ref.invalidate(coreStatusProvider),
                 ),
@@ -60,9 +63,9 @@ class _CoreStatusCard extends ConsumerWidget {
                 height: 40,
                 child: Center(child: CircularProgressIndicator()),
               ),
-              error: (e, _) => Text('Erreur : $e'),
+              error: (e, _) => Text(l10n.commonError(e.toString())),
               data: (s) => s == null
-                  ? const Text('Non disponible')
+                  ? Text(l10n.commonUnavailable)
                   : _CoreStatusBody(status: s),
             ),
           ],
@@ -78,15 +81,22 @@ class _CoreStatusBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _line('Version', status.version),
-        _line('Uptime', _fmtUptime(status.uptimeSeconds)),
-        _line('TPM utilisé', status.tpmUsed ? 'oui' : 'non'),
-        _line('Base de données', status.dbOk ? 'OK' : 'erreur'),
+        _line(l10n.settingsCoreFieldVersion, status.version),
+        _line(l10n.settingsCoreFieldUptime, _fmtUptime(l10n, status.uptimeSeconds)),
+        _line(
+          l10n.settingsCoreFieldTpm,
+          status.tpmUsed ? l10n.commonYes : l10n.commonNo,
+        ),
+        _line(
+          l10n.settingsCoreFieldDb,
+          status.dbOk ? l10n.commonOk : l10n.commonErrorState,
+        ),
         if (status.lastEnforcementError != null)
-          _line('Dernière erreur', status.lastEnforcementError!),
+          _line(l10n.settingsCoreFieldLastError, status.lastEnforcementError!),
       ],
     );
   }
@@ -106,13 +116,13 @@ class _CoreStatusBody extends StatelessWidget {
     ),
   );
 
-  static String _fmtUptime(int s) {
+  static String _fmtUptime(AppLocalizations l10n, int s) {
     final d = s ~/ 86400;
     final h = (s % 86400) ~/ 3600;
     final m = (s % 3600) ~/ 60;
-    if (d > 0) return '${d}j ${h}h ${m}min';
-    if (h > 0) return '${h}h ${m}min';
-    return '${m}min';
+    if (d > 0) return l10n.uptimeDhm(d, h, m);
+    if (h > 0) return l10n.uptimeHm(h, m);
+    return l10n.uptimeM(m);
   }
 }
 
@@ -140,15 +150,16 @@ class _ChangePasswordCardState extends ConsumerState<_ChangePasswordCard> {
     super.dispose();
   }
 
-  String? _validate() {
-    if (_current.text.isEmpty) return 'Saisis le mot de passe actuel';
-    if (_next.text.length < 4) return 'Le nouveau mot de passe doit faire ≥ 4 caractères';
-    if (_next.text != _confirm.text) return 'La confirmation ne correspond pas';
+  String? _validate(AppLocalizations l10n) {
+    if (_current.text.isEmpty) return l10n.settingsPasswordEmptyCurrent;
+    if (_next.text.length < 4) return l10n.settingsPasswordTooShort;
+    if (_next.text != _confirm.text) return l10n.settingsPasswordMismatch;
     return null;
   }
 
   Future<void> _submit() async {
-    final err = _validate();
+    final l10n = AppLocalizations.of(context);
+    final err = _validate(l10n);
     if (err != null) {
       setState(() {
         _message = err;
@@ -172,13 +183,13 @@ class _ChangePasswordCardState extends ConsumerState<_ChangePasswordCard> {
       _next.clear();
       _confirm.clear();
       setState(() {
-        _message = 'Mot de passe mis à jour';
+        _message = l10n.settingsPasswordSuccess;
         _success = true;
       });
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _message = 'Échec : $e';
+        _message = l10n.settingsPasswordFailed(e.toString());
         _success = false;
       });
     } finally {
@@ -188,6 +199,7 @@ class _ChangePasswordCardState extends ConsumerState<_ChangePasswordCard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -195,7 +207,7 @@ class _ChangePasswordCardState extends ConsumerState<_ChangePasswordCard> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Changer le mot de passe',
+              l10n.settingsPasswordSection,
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 12),
@@ -203,9 +215,9 @@ class _ChangePasswordCardState extends ConsumerState<_ChangePasswordCard> {
               key: const Key('settings-current-password'),
               controller: _current,
               obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Mot de passe actuel',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.settingsPasswordCurrentLabel,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 8),
@@ -213,9 +225,9 @@ class _ChangePasswordCardState extends ConsumerState<_ChangePasswordCard> {
               key: const Key('settings-new-password'),
               controller: _next,
               obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Nouveau mot de passe',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.settingsPasswordNewLabel,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 8),
@@ -223,16 +235,18 @@ class _ChangePasswordCardState extends ConsumerState<_ChangePasswordCard> {
               key: const Key('settings-confirm-password'),
               controller: _confirm,
               obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Confirmation',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.settingsPasswordConfirmLabel,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 12),
             FilledButton(
               key: const Key('settings-change-password-submit'),
               onPressed: _busy ? null : _submit,
-              child: Text(_busy ? 'Envoi…' : 'Mettre à jour'),
+              child: Text(
+                _busy ? l10n.commonSending : l10n.settingsPasswordSubmit,
+              ),
             ),
             if (_message != null)
               Padding(
@@ -258,16 +272,17 @@ class _LogoutCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            const Expanded(child: Text('Terminer la session parent.')),
+            Expanded(child: Text(l10n.settingsLogoutDescription)),
             FilledButton.tonalIcon(
               key: const Key('settings-logout'),
               icon: const Icon(Icons.logout),
-              label: const Text('Se déconnecter'),
+              label: Text(l10n.commonLogout),
               onPressed: () async {
                 await ref.read(authControllerProvider.notifier).logout();
                 if (context.mounted) context.go('/login');

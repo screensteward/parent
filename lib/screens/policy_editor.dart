@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../ipc/dto.dart';
+import '../l10n/app_localizations.dart';
 import '../state/auth_controller.dart';
 import '../state/policy_controller.dart';
 
@@ -56,6 +57,7 @@ class _PolicyEditorScreenState extends ConsumerState<PolicyEditorScreen> {
       '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}:00';
 
   Future<void> _save() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       _saving = true;
       _error = null;
@@ -93,7 +95,7 @@ class _PolicyEditorScreenState extends ConsumerState<PolicyEditorScreen> {
       context.pop();
     } catch (e) {
       if (!mounted) return;
-      setState(() => _error = 'Erreur : $e');
+      setState(() => _error = l10n.commonError(e.toString()));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -101,13 +103,14 @@ class _PolicyEditorScreenState extends ConsumerState<PolicyEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final policies = ref.watch(policiesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Éditer la règle')),
+      appBar: AppBar(title: Text(l10n.policyEditorTitle)),
       body: policies.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Erreur : $e')),
+        error: (e, _) => Center(child: Text(l10n.commonError(e.toString()))),
         data: (list) {
           if (!_loaded) {
             if (list.isNotEmpty) _hydrateFrom(list.first);
@@ -118,7 +121,7 @@ class _PolicyEditorScreenState extends ConsumerState<PolicyEditorScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _sectionTitle(context, 'Budget quotidien'),
+                _sectionTitle(context, l10n.policyEditorBudgetSection),
                 Row(
                   children: [
                     Expanded(
@@ -128,16 +131,19 @@ class _PolicyEditorScreenState extends ConsumerState<PolicyEditorScreen> {
                         max: 360,
                         divisions: 11,
                         value: _budgetMinutes.toDouble(),
-                        label: '$_budgetMinutes min',
+                        label: l10n.extensionsDurationValue(_budgetMinutes),
                         onChanged: (v) =>
                             setState(() => _budgetMinutes = v.round()),
                       ),
                     ),
-                    SizedBox(width: 72, child: Text('$_budgetMinutes min')),
+                    SizedBox(
+                      width: 72,
+                      child: Text(l10n.extensionsDurationValue(_budgetMinutes)),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                _sectionTitle(context, 'Créneau autorisé'),
+                _sectionTitle(context, l10n.policyEditorWindowSection),
                 Row(
                   children: [
                     OutlinedButton(
@@ -171,15 +177,7 @@ class _PolicyEditorScreenState extends ConsumerState<PolicyEditorScreen> {
                 Wrap(
                   spacing: 8,
                   children: [
-                    for (final (idx, label) in const [
-                      (1, 'Lun'),
-                      (2, 'Mar'),
-                      (3, 'Mer'),
-                      (4, 'Jeu'),
-                      (5, 'Ven'),
-                      (6, 'Sam'),
-                      (7, 'Dim'),
-                    ])
+                    for (final (idx, label) in _weekdays(l10n))
                       FilterChip(
                         label: Text(label),
                         selected: _days.contains(idx),
@@ -195,7 +193,7 @@ class _PolicyEditorScreenState extends ConsumerState<PolicyEditorScreen> {
                 FilledButton(
                   key: const Key('policy-save-button'),
                   onPressed: _saving || _days.isEmpty ? null : _save,
-                  child: Text(_saving ? 'Enregistrement…' : 'Enregistrer'),
+                  child: Text(_saving ? l10n.commonSaving : l10n.commonSave),
                 ),
                 if (_error != null)
                   Padding(
@@ -219,4 +217,14 @@ class _PolicyEditorScreenState extends ConsumerState<PolicyEditorScreen> {
     padding: const EdgeInsets.only(bottom: 8),
     child: Text(text, style: Theme.of(context).textTheme.titleMedium),
   );
+
+  static List<(int, String)> _weekdays(AppLocalizations l10n) => [
+    (1, l10n.dayMonShort),
+    (2, l10n.dayTueShort),
+    (3, l10n.dayWedShort),
+    (4, l10n.dayThuShort),
+    (5, l10n.dayFriShort),
+    (6, l10n.daySatShort),
+    (7, l10n.daySunShort),
+  ];
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../l10n/app_localizations.dart';
 import '../state/auth_controller.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -23,6 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       _busy = true;
       _error = null;
@@ -33,7 +35,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       context.go('/dashboard');
     } catch (e) {
       if (!mounted) return;
-      setState(() => _error = 'Échec de connexion : $e');
+      setState(() => _error = l10n.loginFailed(e.toString()));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -41,8 +43,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Connexion')),
+      appBar: AppBar(title: Text(l10n.loginTitle)),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
@@ -56,16 +59,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   controller: _password,
                   obscureText: true,
                   autofocus: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Mot de passe parent',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: l10n.loginPasswordLabel,
+                    border: const OutlineInputBorder(),
                   ),
                   onSubmitted: (_) => _busy ? null : _submit(),
                 ),
                 const SizedBox(height: 16),
                 FilledButton(
                   onPressed: _busy ? null : _submit,
-                  child: Text(_busy ? 'Connexion…' : 'Se connecter'),
+                  child: Text(_busy ? l10n.loginSubmitting : l10n.loginSubmit),
                 ),
                 if (_error != null)
                   Padding(

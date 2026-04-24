@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../state/auth_controller.dart';
 
 /// First-run onboarding. Four steps: family name → parent (name + password)
@@ -60,6 +61,7 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
   }
 
   Future<void> _finish() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       _busy = true;
       _error = null;
@@ -99,7 +101,7 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
       context.go('/dashboard');
     } catch (e) {
       if (!mounted) return;
-      setState(() => _error = 'Erreur : $e');
+      setState(() => _error = l10n.commonError(e.toString()));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -118,8 +120,9 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Premier lancement')),
+      appBar: AppBar(title: Text(l10n.onboardingTitle)),
       body: Column(
         children: [
           Expanded(
@@ -139,8 +142,6 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
                   ? () => setState(() => _step--)
                   : null,
               controlsBuilder: (ctx, details) {
-                // Stepper calls this for every step; only the active one
-                // should expose a tap target.
                 if (details.stepIndex != details.currentStep) {
                   return const SizedBox.shrink();
                 }
@@ -152,8 +153,8 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
                         onPressed: details.onStepContinue,
                         child: Text(
                           _step == 3
-                              ? (_busy ? 'En cours…' : 'Terminer')
-                              : 'Suivant',
+                              ? (_busy ? l10n.commonFinishing : l10n.commonFinish)
+                              : l10n.commonNext,
                         ),
                       ),
                       if (_step > 0)
@@ -161,7 +162,7 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
                           padding: const EdgeInsets.only(left: 8),
                           child: TextButton(
                             onPressed: details.onStepCancel,
-                            child: const Text('Retour'),
+                            child: Text(l10n.commonBack),
                           ),
                         ),
                     ],
@@ -169,10 +170,10 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
                 );
               },
               steps: [
-                _familyStep(),
-                _parentStep(),
-                _childStep(),
-                _policyStep(context),
+                _familyStep(l10n),
+                _parentStep(l10n),
+                _childStep(l10n),
+                _policyStep(context, l10n),
               ],
             ),
           ),
@@ -191,8 +192,8 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
     );
   }
 
-  Step _familyStep() => Step(
-    title: const Text('Famille'),
+  Step _familyStep(AppLocalizations l10n) => Step(
+    title: Text(l10n.onboardingFamilyStep),
     isActive: _step >= 0,
     state: _step > 0 ? StepState.complete : StepState.indexed,
     content: TextField(
@@ -200,15 +201,15 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
       controller: _familyName,
       autofocus: true,
       onChanged: (_) => setState(() {}),
-      decoration: const InputDecoration(
-        labelText: 'Nom de la famille',
-        border: OutlineInputBorder(),
+      decoration: InputDecoration(
+        labelText: l10n.onboardingFamilyNameLabel,
+        border: const OutlineInputBorder(),
       ),
     ),
   );
 
-  Step _parentStep() => Step(
-    title: const Text('Parent'),
+  Step _parentStep(AppLocalizations l10n) => Step(
+    title: Text(l10n.onboardingParentStep),
     isActive: _step >= 1,
     state: _step > 1 ? StepState.complete : StepState.indexed,
     content: Column(
@@ -218,9 +219,9 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
           key: const Key('wizard-parent-name'),
           controller: _parentName,
           onChanged: (_) => setState(() {}),
-          decoration: const InputDecoration(
-            labelText: 'Votre prénom',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            labelText: l10n.onboardingParentNameLabel,
+            border: const OutlineInputBorder(),
           ),
         ),
         const SizedBox(height: 12),
@@ -229,39 +230,39 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
           controller: _password,
           obscureText: true,
           onChanged: (_) => setState(() {}),
-          decoration: const InputDecoration(
-            labelText: 'Mot de passe parent (≥ 4 caractères)',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            labelText: l10n.onboardingParentPasswordLabel,
+            border: const OutlineInputBorder(),
           ),
         ),
       ],
     ),
   );
 
-  Step _childStep() => Step(
-    title: const Text('Enfant'),
+  Step _childStep(AppLocalizations l10n) => Step(
+    title: Text(l10n.onboardingChildStep),
     isActive: _step >= 2,
     state: _step > 2 ? StepState.complete : StepState.indexed,
     content: TextField(
       key: const Key('wizard-child-name'),
       controller: _childName,
       onChanged: (_) => setState(() {}),
-      decoration: const InputDecoration(
-        labelText: "Prénom de l'enfant",
-        border: OutlineInputBorder(),
+      decoration: InputDecoration(
+        labelText: l10n.onboardingChildNameLabel,
+        border: const OutlineInputBorder(),
       ),
     ),
   );
 
-  Step _policyStep(BuildContext context) => Step(
-    title: const Text('Règles initiales'),
+  Step _policyStep(BuildContext context, AppLocalizations l10n) => Step(
+    title: Text(l10n.onboardingPolicyStep),
     isActive: _step >= 3,
     content: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
           children: [
-            const Text('Budget quotidien :'),
+            Text(l10n.onboardingBudgetLabel),
             const SizedBox(width: 16),
             Expanded(
               child: Slider(
@@ -269,18 +270,21 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
                 max: 360,
                 divisions: 11,
                 value: _budgetMinutes.toDouble(),
-                label: '$_budgetMinutes min',
+                label: l10n.extensionsDurationValue(_budgetMinutes),
                 onChanged: (v) =>
                     setState(() => _budgetMinutes = v.round()),
               ),
             ),
-            SizedBox(width: 64, child: Text('$_budgetMinutes min')),
+            SizedBox(
+              width: 72,
+              child: Text(l10n.extensionsDurationValue(_budgetMinutes)),
+            ),
           ],
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            const Text('Créneau :'),
+            Text(l10n.onboardingWindowLabel),
             const SizedBox(width: 16),
             OutlinedButton(
               onPressed: () async {
@@ -311,15 +315,7 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
         Wrap(
           spacing: 8,
           children: [
-            for (final (idx, label) in const [
-              (1, 'Lun'),
-              (2, 'Mar'),
-              (3, 'Mer'),
-              (4, 'Jeu'),
-              (5, 'Ven'),
-              (6, 'Sam'),
-              (7, 'Dim'),
-            ])
+            for (final (idx, label) in _weekdays(l10n))
               FilterChip(
                 label: Text(label),
                 selected: _activeDays.contains(idx),
@@ -336,4 +332,14 @@ class _OnboardingWizardState extends ConsumerState<OnboardingWizard> {
       ],
     ),
   );
+
+  static List<(int, String)> _weekdays(AppLocalizations l10n) => [
+    (1, l10n.dayMonShort),
+    (2, l10n.dayTueShort),
+    (3, l10n.dayWedShort),
+    (4, l10n.dayThuShort),
+    (5, l10n.dayFriShort),
+    (6, l10n.daySatShort),
+    (7, l10n.daySunShort),
+  ];
 }

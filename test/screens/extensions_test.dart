@@ -8,6 +8,7 @@ import 'package:screensteward_parent/screens/extensions.dart';
 import 'package:screensteward_parent/state/auth_controller.dart';
 
 import '../support/mock_socket.dart';
+import '../support/test_app.dart';
 
 GoRouter _router() => GoRouter(
   initialLocation: '/extensions',
@@ -72,7 +73,7 @@ void main() {
     await t.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp.router(routerConfig: _router()),
+        child: testRouterApp(_router()),
       ),
     );
     await _settleWithRealIo(t);
@@ -139,7 +140,7 @@ void main() {
     await t.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp.router(routerConfig: _router()),
+        child: testRouterApp(_router()),
       ),
     );
     await _settleWithRealIo(t);

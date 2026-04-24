@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'l10n/app_localizations.dart';
 import 'screens/dashboard.dart';
 import 'screens/extensions.dart';
 import 'screens/login.dart';
@@ -80,8 +82,15 @@ class ScreenStewardParentApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     return MaterialApp.router(
-      title: 'ScreenSteward — Parent',
+      onGenerateTitle: (ctx) => AppLocalizations.of(ctx).dashboardTitle,
       theme: ThemeData(useMaterial3: true),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: router,
     );
   }

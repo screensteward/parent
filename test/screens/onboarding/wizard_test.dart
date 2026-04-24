@@ -8,6 +8,7 @@ import 'package:screensteward_parent/screens/onboarding/wizard.dart';
 import 'package:screensteward_parent/state/auth_controller.dart';
 
 import '../../support/mock_socket.dart';
+import '../../support/test_app.dart';
 
 GoRouter _router() => GoRouter(
   initialLocation: '/onboarding',
@@ -67,7 +68,7 @@ void main() {
     await t.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp.router(routerConfig: _router()),
+        child: testRouterApp(_router()),
       ),
     );
     await t.pumpAndSettle();
@@ -151,7 +152,7 @@ void main() {
     await t.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp.router(routerConfig: _router()),
+        child: testRouterApp(_router()),
       ),
     );
     await t.pumpAndSettle();

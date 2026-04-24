@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../ipc/dto.dart';
+import '../l10n/app_localizations.dart';
 import '../state/auth_controller.dart';
 import '../state/child_status_controller.dart';
 import '../state/extension_controller.dart';
@@ -17,29 +18,30 @@ class DashboardScreen extends ConsumerWidget {
     // Keep the notification fan-out alive while the dashboard is on screen.
     ref.watch(ipcNotificationFanOutProvider);
 
+    final l10n = AppLocalizations.of(context);
     final status = ref.watch(childStatusProvider);
     final policies = ref.watch(policiesProvider);
     final pending = ref.watch(pendingExtensionsProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ScreenSteward — Parent'),
+        title: Text(l10n.dashboardTitle),
         actions: [
           IconButton(
             key: const Key('dashboard-reports'),
-            tooltip: "Rapport d'usage",
+            tooltip: l10n.dashboardReportsTooltip,
             icon: const Icon(Icons.bar_chart),
             onPressed: () => GoRouter.of(context).push('/reports'),
           ),
           IconButton(
             key: const Key('dashboard-settings'),
-            tooltip: 'Paramètres',
+            tooltip: l10n.dashboardSettingsTooltip,
             icon: const Icon(Icons.settings),
             onPressed: () => GoRouter.of(context).push('/settings'),
           ),
           IconButton(
             key: const Key('dashboard-logout'),
-            tooltip: 'Se déconnecter',
+            tooltip: l10n.commonLogout,
             icon: const Icon(Icons.logout),
             onPressed: () async {
               await ref.read(authControllerProvider.notifier).logout();
@@ -68,6 +70,7 @@ class _UsageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -76,10 +79,10 @@ class _UsageCard extends StatelessWidget {
             height: 80,
             child: Center(child: CircularProgressIndicator()),
           ),
-          error: (e, _) => Text('Erreur : $e'),
+          error: (e, _) => Text(l10n.commonError(e.toString())),
           data: (s) {
             if (s == null) {
-              return const Text('En attente des données du cœur…');
+              return Text(l10n.dashboardCorePending);
             }
             final budget = s.todayBudgetMinutes;
             final used = s.todayMinutesUsed;
@@ -91,26 +94,30 @@ class _UsageCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Aujourd'hui",
+                  l10n.dashboardToday,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   budget == null
-                      ? '$used min utilisées (pas de budget)'
-                      : '$used / $budget min utilisées',
+                      ? l10n.dashboardUsageNoBudget(used)
+                      : l10n.dashboardUsageWithBudget(used, budget),
                 ),
                 const SizedBox(height: 8),
                 LinearProgressIndicator(value: ratio),
                 const SizedBox(height: 8),
                 Text(
                   s.currentWindowOpen
-                      ? 'Créneau ouvert'
-                      : 'Hors créneau autorisé',
+                      ? l10n.dashboardWindowOpen
+                      : l10n.dashboardWindowClosed,
                 ),
                 if (s.activeBlocklistDisplay.isNotEmpty) ...[
                   const SizedBox(height: 4),
-                  Text('Bloquées : ${s.activeBlocklistDisplay.join(", ")}'),
+                  Text(
+                    l10n.dashboardBlockedList(
+                      s.activeBlocklistDisplay.join(', '),
+                    ),
+                  ),
                 ],
               ],
             );
@@ -127,6 +134,7 @@ class _PoliciesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -135,14 +143,14 @@ class _PoliciesCard extends StatelessWidget {
             height: 60,
             child: Center(child: CircularProgressIndicator()),
           ),
-          error: (e, _) => Text('Erreur : $e'),
+          error: (e, _) => Text(l10n.commonError(e.toString())),
           data: (list) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Text(
-                    'Règles actives',
+                    l10n.dashboardPoliciesTitle,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const Spacer(),
@@ -150,15 +158,15 @@ class _PoliciesCard extends StatelessWidget {
                     key: const Key('dashboard-edit-policy'),
                     onPressed: () =>
                         GoRouter.of(context).push('/policy-editor'),
-                    child: const Text('Éditer'),
+                    child: Text(l10n.dashboardPoliciesEdit),
                   ),
                 ],
               ),
               const SizedBox(height: 8),
               if (list.isEmpty)
-                const Text('Aucune règle')
+                Text(l10n.dashboardPoliciesEmpty)
               else
-                ...list.expand((p) => p.rules.map(_ruleLine)),
+                ...list.expand((p) => p.rules.map((r) => _ruleLine(l10n, r))),
             ],
           ),
         ),
@@ -166,14 +174,16 @@ class _PoliciesCard extends StatelessWidget {
     );
   }
 
-  static Widget _ruleLine(Map<String, dynamic> rule) {
+  static Widget _ruleLine(AppLocalizations l10n, Map<String, dynamic> rule) {
     final type = rule['type'];
     switch (type) {
       case 'daily_budget':
         return ListTile(
           dense: true,
           leading: const Icon(Icons.timelapse),
-          title: Text('Budget quotidien : ${rule['minutes']} min'),
+          title: Text(
+            l10n.ruleDailyBudgetSummary((rule['minutes'] as num).toInt()),
+          ),
         );
       case 'time_window':
         final days = (rule['days'] as List).join(', ');
@@ -181,7 +191,11 @@ class _PoliciesCard extends StatelessWidget {
           dense: true,
           leading: const Icon(Icons.schedule),
           title: Text(
-            'Créneau ${rule['start']} → ${rule['end']} (jours $days)',
+            l10n.ruleTimeWindowSummary(
+              rule['start'] as String,
+              rule['end'] as String,
+              days,
+            ),
           ),
         );
       case 'app_blocklist':
@@ -189,20 +203,20 @@ class _PoliciesCard extends StatelessWidget {
         return ListTile(
           dense: true,
           leading: const Icon(Icons.block),
-          title: Text('Blocklist — $count application(s)'),
+          title: Text(l10n.ruleBlocklistSummary(count)),
         );
       case 'app_allowlist':
         final count = (rule['matchers'] as List).length;
         return ListTile(
           dense: true,
           leading: const Icon(Icons.check_circle),
-          title: Text('Allowlist — $count application(s)'),
+          title: Text(l10n.ruleAllowlistSummary(count)),
         );
       default:
         return ListTile(
           dense: true,
           leading: const Icon(Icons.help),
-          title: Text('Règle inconnue : $type'),
+          title: Text(l10n.ruleUnknownSummary(type.toString())),
         );
     }
   }
@@ -214,6 +228,7 @@ class _PendingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -222,35 +237,35 @@ class _PendingCard extends StatelessWidget {
             height: 60,
             child: Center(child: CircularProgressIndicator()),
           ),
-          error: (e, _) => Text('Erreur : $e'),
+          error: (e, _) => Text(l10n.commonError(e.toString())),
           data: (list) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Text(
-                    'Demandes en attente (${list.length})',
+                    l10n.dashboardPendingTitle(list.length),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const Spacer(),
                   TextButton(
                     key: const Key('dashboard-manage-extensions'),
                     onPressed: () => GoRouter.of(context).push('/extensions'),
-                    child: const Text('Gérer'),
+                    child: Text(l10n.dashboardPendingManage),
                   ),
                 ],
               ),
               const SizedBox(height: 8),
               if (list.isEmpty)
-                const Text('Aucune demande')
+                Text(l10n.dashboardPendingEmpty)
               else
                 ...list.take(3).map(
                   (e) => ListTile(
                     dense: true,
                     leading: const Icon(Icons.notifications),
-                    title: Text(e.reason ?? '(sans motif)'),
+                    title: Text(e.reason ?? l10n.commonNoReason),
                     subtitle: Text(
-                      'Créée ${_relative(e.createdAt)}',
+                      l10n.dashboardPendingCreated(_relative(l10n, e.createdAt)),
                     ),
                   ),
                 ),
@@ -261,11 +276,11 @@ class _PendingCard extends StatelessWidget {
     );
   }
 
-  static String _relative(DateTime when) {
+  static String _relative(AppLocalizations l10n, DateTime when) {
     final d = DateTime.now().difference(when);
-    if (d.inSeconds < 60) return "à l'instant";
-    if (d.inMinutes < 60) return 'il y a ${d.inMinutes} min';
-    if (d.inHours < 24) return 'il y a ${d.inHours} h';
-    return 'il y a ${d.inDays} j';
+    if (d.inSeconds < 60) return l10n.timeJustNow;
+    if (d.inMinutes < 60) return l10n.timeMinutesAgo(d.inMinutes);
+    if (d.inHours < 24) return l10n.timeHoursAgo(d.inHours);
+    return l10n.timeDaysAgo(d.inDays);
   }
 }

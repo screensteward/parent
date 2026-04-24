@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../ipc/dto.dart';
+import '../l10n/app_localizations.dart';
 import '../state/usage_report_controller.dart';
 
 class ReportsScreen extends ConsumerWidget {
@@ -10,15 +11,16 @@ class ReportsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final report = ref.watch(usageReportProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Rapport d\'usage')),
+      appBar: AppBar(title: Text(l10n.reportsTitle)),
       body: report.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Erreur : $e')),
+        error: (e, _) => Center(child: Text(l10n.commonError(e.toString()))),
         data: (r) {
           if (r == null || r.days.isEmpty) {
-            return const Center(child: Text('Pas encore de données'));
+            return Center(child: Text(l10n.reportsEmpty));
           }
           return Padding(
             padding: const EdgeInsets.all(16),
@@ -26,7 +28,7 @@ class ReportsScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _rangeLabel(r),
+                  l10n.reportsRange(_ymd(r.from), _ymd(r.to)),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 16),
@@ -38,9 +40,6 @@ class ReportsScreen extends ConsumerWidget {
       ),
     );
   }
-
-  static String _rangeLabel(UsageReport r) =>
-      'Du ${_ymd(r.from)} au ${_ymd(r.to)}';
 
   static String _ymd(DateTime d) {
     final l = d.toLocal();

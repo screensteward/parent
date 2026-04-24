@@ -1,0 +1,208 @@
+{
+  "@@locale": "fr",
+
+  "commonError": "Erreur : {error}",
+  "@commonError": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+
+  "commonCancel": "Annuler",
+  "commonSave": "Enregistrer",
+  "commonSaving": "Enregistrement…",
+  "commonBack": "Retour",
+  "commonNext": "Suivant",
+  "commonFinish": "Terminer",
+  "commonFinishing": "En cours…",
+  "commonSending": "Envoi…",
+  "commonRefresh": "Rafraîchir",
+  "commonNoReason": "(sans motif)",
+  "commonUnavailable": "Non disponible",
+  "commonYes": "oui",
+  "commonNo": "non",
+  "commonOk": "OK",
+  "commonErrorState": "erreur",
+  "commonLogout": "Se déconnecter",
+
+  "loginTitle": "Connexion",
+  "loginPasswordLabel": "Mot de passe parent",
+  "loginSubmitting": "Connexion…",
+  "loginSubmit": "Se connecter",
+  "loginFailed": "Échec de connexion : {error}",
+  "@loginFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+
+  "onboardingTitle": "Premier lancement",
+  "onboardingFamilyStep": "Famille",
+  "onboardingFamilyNameLabel": "Nom de la famille",
+  "onboardingParentStep": "Parent",
+  "onboardingParentNameLabel": "Votre prénom",
+  "onboardingParentPasswordLabel": "Mot de passe parent (≥ 4 caractères)",
+  "onboardingChildStep": "Enfant",
+  "onboardingChildNameLabel": "Prénom de l'enfant",
+  "onboardingPolicyStep": "Règles initiales",
+  "onboardingBudgetLabel": "Budget quotidien :",
+  "onboardingWindowLabel": "Créneau :",
+
+  "dayMonShort": "Lun",
+  "dayTueShort": "Mar",
+  "dayWedShort": "Mer",
+  "dayThuShort": "Jeu",
+  "dayFriShort": "Ven",
+  "daySatShort": "Sam",
+  "daySunShort": "Dim",
+
+  "dashboardTitle": "ScreenSteward — Parent",
+  "dashboardReportsTooltip": "Rapport d'usage",
+  "dashboardSettingsTooltip": "Paramètres",
+  "dashboardToday": "Aujourd'hui",
+  "dashboardWindowOpen": "Créneau ouvert",
+  "dashboardWindowClosed": "Hors créneau autorisé",
+  "dashboardBlockedList": "Bloquées : {list}",
+  "@dashboardBlockedList": {
+    "placeholders": { "list": { "type": "String" } }
+  },
+  "dashboardCorePending": "En attente des données du cœur…",
+  "dashboardUsageWithBudget": "{used} / {budget} min utilisées",
+  "@dashboardUsageWithBudget": {
+    "placeholders": {
+      "used": { "type": "int" },
+      "budget": { "type": "int" }
+    }
+  },
+  "dashboardUsageNoBudget": "{used} min utilisées (pas de budget)",
+  "@dashboardUsageNoBudget": {
+    "placeholders": { "used": { "type": "int" } }
+  },
+  "dashboardPoliciesTitle": "Règles actives",
+  "dashboardPoliciesEdit": "Éditer",
+  "dashboardPoliciesEmpty": "Aucune règle",
+  "dashboardPendingTitle": "Demandes en attente ({count})",
+  "@dashboardPendingTitle": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "dashboardPendingManage": "Gérer",
+  "dashboardPendingEmpty": "Aucune demande",
+  "dashboardPendingCreated": "Créée {when}",
+  "@dashboardPendingCreated": {
+    "placeholders": { "when": { "type": "String" } }
+  },
+
+  "ruleDailyBudgetSummary": "Budget quotidien : {minutes} min",
+  "@ruleDailyBudgetSummary": {
+    "placeholders": { "minutes": { "type": "int" } }
+  },
+  "ruleTimeWindowSummary": "Créneau {start} → {end} (jours {days})",
+  "@ruleTimeWindowSummary": {
+    "placeholders": {
+      "start": { "type": "String" },
+      "end": { "type": "String" },
+      "days": { "type": "String" }
+    }
+  },
+  "ruleBlocklistSummary": "Blocklist — {count} application(s)",
+  "@ruleBlocklistSummary": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "ruleAllowlistSummary": "Allowlist — {count} application(s)",
+  "@ruleAllowlistSummary": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "ruleUnknownSummary": "Règle inconnue : {type}",
+  "@ruleUnknownSummary": {
+    "placeholders": { "type": { "type": "String" } }
+  },
+
+  "timeJustNow": "à l'instant",
+  "timeMinutesAgo": "il y a {n} min",
+  "@timeMinutesAgo": {
+    "placeholders": { "n": { "type": "int" } }
+  },
+  "timeHoursAgo": "il y a {n} h",
+  "@timeHoursAgo": {
+    "placeholders": { "n": { "type": "int" } }
+  },
+  "timeDaysAgo": "il y a {n} j",
+  "@timeDaysAgo": {
+    "placeholders": { "n": { "type": "int" } }
+  },
+
+  "uptimeDhm": "{d}j {h}h {m}min",
+  "@uptimeDhm": {
+    "placeholders": {
+      "d": { "type": "int" },
+      "h": { "type": "int" },
+      "m": { "type": "int" }
+    }
+  },
+  "uptimeHm": "{h}h {m}min",
+  "@uptimeHm": {
+    "placeholders": {
+      "h": { "type": "int" },
+      "m": { "type": "int" }
+    }
+  },
+  "uptimeM": "{m}min",
+  "@uptimeM": {
+    "placeholders": { "m": { "type": "int" } }
+  },
+
+  "policyEditorTitle": "Éditer la règle",
+  "policyEditorBudgetSection": "Budget quotidien",
+  "policyEditorWindowSection": "Créneau autorisé",
+
+  "extensionsTitle": "Demandes en attente",
+  "extensionsEmpty": "Aucune demande en attente",
+  "extensionsDeny": "Refuser",
+  "extensionsApprove": "Approuver",
+  "extensionsCreatedAt": "Créée le {date}",
+  "@extensionsCreatedAt": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "extensionsDurationDialogTitle": "Durée de l'extension",
+  "extensionsDurationValue": "{n} min",
+  "@extensionsDurationValue": {
+    "placeholders": { "n": { "type": "int" } }
+  },
+  "extensionsDurationConfirm": "Valider",
+  "extensionsApproveFailed": "Approbation impossible : {error}",
+  "@extensionsApproveFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "extensionsDenyFailed": "Refus impossible : {error}",
+  "@extensionsDenyFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+
+  "reportsTitle": "Rapport d'usage",
+  "reportsEmpty": "Pas encore de données",
+  "reportsRange": "Du {from} au {to}",
+  "@reportsRange": {
+    "placeholders": {
+      "from": { "type": "String" },
+      "to": { "type": "String" }
+    }
+  },
+
+  "settingsTitle": "Paramètres",
+  "settingsCoreSection": "Statut du cœur",
+  "settingsCoreFieldVersion": "Version",
+  "settingsCoreFieldUptime": "Uptime",
+  "settingsCoreFieldTpm": "TPM utilisé",
+  "settingsCoreFieldDb": "Base de données",
+  "settingsCoreFieldLastError": "Dernière erreur",
+  "settingsPasswordSection": "Changer le mot de passe",
+  "settingsPasswordCurrentLabel": "Mot de passe actuel",
+  "settingsPasswordNewLabel": "Nouveau mot de passe",
+  "settingsPasswordConfirmLabel": "Confirmation",
+  "settingsPasswordSubmit": "Mettre à jour",
+  "settingsPasswordSuccess": "Mot de passe mis à jour",
+  "settingsPasswordFailed": "Échec : {error}",
+  "@settingsPasswordFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "settingsPasswordEmptyCurrent": "Saisis le mot de passe actuel",
+  "settingsPasswordTooShort": "Le nouveau mot de passe doit faire au moins 4 caractères",
+  "settingsPasswordMismatch": "La confirmation ne correspond pas",
+  "settingsLogoutDescription": "Terminer la session parent."
+}
