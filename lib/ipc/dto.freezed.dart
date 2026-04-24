@@ -2224,7 +2224,7 @@ as List<DeviceView>,
 /// @nodoc
 mixin _$PolicyView {
 
- String get id;@JsonKey(name: 'child_id') String get childId; Map<String, dynamic> get scope; List<Map<String, dynamic>> get rules; int get priority;@JsonKey(name: 'active_from') DateTime? get activeFrom;@JsonKey(name: 'active_until') DateTime? get activeUntil;
+ String get id;@JsonKey(name: 'child_id') String get childId;@JsonKey(fromJson: _scopeFromJson) Object get scope; List<Map<String, dynamic>> get rules; int get priority;@JsonKey(name: 'active_from') DateTime? get activeFrom;@JsonKey(name: 'active_until') DateTime? get activeUntil;
 /// Create a copy of PolicyView
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2257,7 +2257,7 @@ abstract mixin class $PolicyViewCopyWith<$Res>  {
   factory $PolicyViewCopyWith(PolicyView value, $Res Function(PolicyView) _then) = _$PolicyViewCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'child_id') String childId, Map<String, dynamic> scope, List<Map<String, dynamic>> rules, int priority,@JsonKey(name: 'active_from') DateTime? activeFrom,@JsonKey(name: 'active_until') DateTime? activeUntil
+ String id,@JsonKey(name: 'child_id') String childId,@JsonKey(fromJson: _scopeFromJson) Object scope, List<Map<String, dynamic>> rules, int priority,@JsonKey(name: 'active_from') DateTime? activeFrom,@JsonKey(name: 'active_until') DateTime? activeUntil
 });
 
 
@@ -2278,8 +2278,7 @@ class _$PolicyViewCopyWithImpl<$Res>
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,childId: null == childId ? _self.childId : childId // ignore: cast_nullable_to_non_nullable
-as String,scope: null == scope ? _self.scope : scope // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>,rules: null == rules ? _self.rules : rules // ignore: cast_nullable_to_non_nullable
+as String,scope: null == scope ? _self.scope : scope ,rules: null == rules ? _self.rules : rules // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
 as int,activeFrom: freezed == activeFrom ? _self.activeFrom : activeFrom // ignore: cast_nullable_to_non_nullable
 as DateTime?,activeUntil: freezed == activeUntil ? _self.activeUntil : activeUntil // ignore: cast_nullable_to_non_nullable
@@ -2368,7 +2367,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'child_id')  String childId,  Map<String, dynamic> scope,  List<Map<String, dynamic>> rules,  int priority, @JsonKey(name: 'active_from')  DateTime? activeFrom, @JsonKey(name: 'active_until')  DateTime? activeUntil)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'child_id')  String childId, @JsonKey(fromJson: _scopeFromJson)  Object scope,  List<Map<String, dynamic>> rules,  int priority, @JsonKey(name: 'active_from')  DateTime? activeFrom, @JsonKey(name: 'active_until')  DateTime? activeUntil)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PolicyView() when $default != null:
 return $default(_that.id,_that.childId,_that.scope,_that.rules,_that.priority,_that.activeFrom,_that.activeUntil);case _:
@@ -2389,7 +2388,7 @@ return $default(_that.id,_that.childId,_that.scope,_that.rules,_that.priority,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'child_id')  String childId,  Map<String, dynamic> scope,  List<Map<String, dynamic>> rules,  int priority, @JsonKey(name: 'active_from')  DateTime? activeFrom, @JsonKey(name: 'active_until')  DateTime? activeUntil)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'child_id')  String childId, @JsonKey(fromJson: _scopeFromJson)  Object scope,  List<Map<String, dynamic>> rules,  int priority, @JsonKey(name: 'active_from')  DateTime? activeFrom, @JsonKey(name: 'active_until')  DateTime? activeUntil)  $default,) {final _that = this;
 switch (_that) {
 case _PolicyView():
 return $default(_that.id,_that.childId,_that.scope,_that.rules,_that.priority,_that.activeFrom,_that.activeUntil);case _:
@@ -2409,7 +2408,7 @@ return $default(_that.id,_that.childId,_that.scope,_that.rules,_that.priority,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'child_id')  String childId,  Map<String, dynamic> scope,  List<Map<String, dynamic>> rules,  int priority, @JsonKey(name: 'active_from')  DateTime? activeFrom, @JsonKey(name: 'active_until')  DateTime? activeUntil)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'child_id')  String childId, @JsonKey(fromJson: _scopeFromJson)  Object scope,  List<Map<String, dynamic>> rules,  int priority, @JsonKey(name: 'active_from')  DateTime? activeFrom, @JsonKey(name: 'active_until')  DateTime? activeUntil)?  $default,) {final _that = this;
 switch (_that) {
 case _PolicyView() when $default != null:
 return $default(_that.id,_that.childId,_that.scope,_that.rules,_that.priority,_that.activeFrom,_that.activeUntil);case _:
@@ -2424,18 +2423,12 @@ return $default(_that.id,_that.childId,_that.scope,_that.rules,_that.priority,_t
 @JsonSerializable()
 
 class _PolicyView implements PolicyView {
-  const _PolicyView({required this.id, @JsonKey(name: 'child_id') required this.childId, required final  Map<String, dynamic> scope, required final  List<Map<String, dynamic>> rules, required this.priority, @JsonKey(name: 'active_from') this.activeFrom, @JsonKey(name: 'active_until') this.activeUntil}): _scope = scope,_rules = rules;
+  const _PolicyView({required this.id, @JsonKey(name: 'child_id') required this.childId, @JsonKey(fromJson: _scopeFromJson) required this.scope, required final  List<Map<String, dynamic>> rules, required this.priority, @JsonKey(name: 'active_from') this.activeFrom, @JsonKey(name: 'active_until') this.activeUntil}): _rules = rules;
   factory _PolicyView.fromJson(Map<String, dynamic> json) => _$PolicyViewFromJson(json);
 
 @override final  String id;
 @override@JsonKey(name: 'child_id') final  String childId;
- final  Map<String, dynamic> _scope;
-@override Map<String, dynamic> get scope {
-  if (_scope is EqualUnmodifiableMapView) return _scope;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_scope);
-}
-
+@override@JsonKey(fromJson: _scopeFromJson) final  Object scope;
  final  List<Map<String, dynamic>> _rules;
 @override List<Map<String, dynamic>> get rules {
   if (_rules is EqualUnmodifiableListView) return _rules;
@@ -2460,12 +2453,12 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PolicyView&&(identical(other.id, id) || other.id == id)&&(identical(other.childId, childId) || other.childId == childId)&&const DeepCollectionEquality().equals(other._scope, _scope)&&const DeepCollectionEquality().equals(other._rules, _rules)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.activeFrom, activeFrom) || other.activeFrom == activeFrom)&&(identical(other.activeUntil, activeUntil) || other.activeUntil == activeUntil));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PolicyView&&(identical(other.id, id) || other.id == id)&&(identical(other.childId, childId) || other.childId == childId)&&const DeepCollectionEquality().equals(other.scope, scope)&&const DeepCollectionEquality().equals(other._rules, _rules)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.activeFrom, activeFrom) || other.activeFrom == activeFrom)&&(identical(other.activeUntil, activeUntil) || other.activeUntil == activeUntil));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,childId,const DeepCollectionEquality().hash(_scope),const DeepCollectionEquality().hash(_rules),priority,activeFrom,activeUntil);
+int get hashCode => Object.hash(runtimeType,id,childId,const DeepCollectionEquality().hash(scope),const DeepCollectionEquality().hash(_rules),priority,activeFrom,activeUntil);
 
 @override
 String toString() {
@@ -2480,7 +2473,7 @@ abstract mixin class _$PolicyViewCopyWith<$Res> implements $PolicyViewCopyWith<$
   factory _$PolicyViewCopyWith(_PolicyView value, $Res Function(_PolicyView) _then) = __$PolicyViewCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'child_id') String childId, Map<String, dynamic> scope, List<Map<String, dynamic>> rules, int priority,@JsonKey(name: 'active_from') DateTime? activeFrom,@JsonKey(name: 'active_until') DateTime? activeUntil
+ String id,@JsonKey(name: 'child_id') String childId,@JsonKey(fromJson: _scopeFromJson) Object scope, List<Map<String, dynamic>> rules, int priority,@JsonKey(name: 'active_from') DateTime? activeFrom,@JsonKey(name: 'active_until') DateTime? activeUntil
 });
 
 
@@ -2501,12 +2494,298 @@ class __$PolicyViewCopyWithImpl<$Res>
   return _then(_PolicyView(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,childId: null == childId ? _self.childId : childId // ignore: cast_nullable_to_non_nullable
-as String,scope: null == scope ? _self._scope : scope // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>,rules: null == rules ? _self._rules : rules // ignore: cast_nullable_to_non_nullable
+as String,scope: null == scope ? _self.scope : scope ,rules: null == rules ? _self._rules : rules // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
 as int,activeFrom: freezed == activeFrom ? _self.activeFrom : activeFrom // ignore: cast_nullable_to_non_nullable
 as DateTime?,activeUntil: freezed == activeUntil ? _self.activeUntil : activeUntil // ignore: cast_nullable_to_non_nullable
 as DateTime?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$PendingExtension {
+
+ String get id;@JsonKey(name: 'child_id') String get childId;@JsonKey(name: 'granted_by_parent_id') String? get grantedByParentId; String get status; String? get reason;@JsonKey(name: 'duration_minutes') int? get durationMinutes;@JsonKey(name: 'granted_at') DateTime? get grantedAt;@JsonKey(name: 'expires_at') DateTime? get expiresAt;@JsonKey(name: 'created_at') DateTime get createdAt;
+/// Create a copy of PendingExtension
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PendingExtensionCopyWith<PendingExtension> get copyWith => _$PendingExtensionCopyWithImpl<PendingExtension>(this as PendingExtension, _$identity);
+
+  /// Serializes this PendingExtension to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PendingExtension&&(identical(other.id, id) || other.id == id)&&(identical(other.childId, childId) || other.childId == childId)&&(identical(other.grantedByParentId, grantedByParentId) || other.grantedByParentId == grantedByParentId)&&(identical(other.status, status) || other.status == status)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.durationMinutes, durationMinutes) || other.durationMinutes == durationMinutes)&&(identical(other.grantedAt, grantedAt) || other.grantedAt == grantedAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,childId,grantedByParentId,status,reason,durationMinutes,grantedAt,expiresAt,createdAt);
+
+@override
+String toString() {
+  return 'PendingExtension(id: $id, childId: $childId, grantedByParentId: $grantedByParentId, status: $status, reason: $reason, durationMinutes: $durationMinutes, grantedAt: $grantedAt, expiresAt: $expiresAt, createdAt: $createdAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PendingExtensionCopyWith<$Res>  {
+  factory $PendingExtensionCopyWith(PendingExtension value, $Res Function(PendingExtension) _then) = _$PendingExtensionCopyWithImpl;
+@useResult
+$Res call({
+ String id,@JsonKey(name: 'child_id') String childId,@JsonKey(name: 'granted_by_parent_id') String? grantedByParentId, String status, String? reason,@JsonKey(name: 'duration_minutes') int? durationMinutes,@JsonKey(name: 'granted_at') DateTime? grantedAt,@JsonKey(name: 'expires_at') DateTime? expiresAt,@JsonKey(name: 'created_at') DateTime createdAt
+});
+
+
+
+
+}
+/// @nodoc
+class _$PendingExtensionCopyWithImpl<$Res>
+    implements $PendingExtensionCopyWith<$Res> {
+  _$PendingExtensionCopyWithImpl(this._self, this._then);
+
+  final PendingExtension _self;
+  final $Res Function(PendingExtension) _then;
+
+/// Create a copy of PendingExtension
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? childId = null,Object? grantedByParentId = freezed,Object? status = null,Object? reason = freezed,Object? durationMinutes = freezed,Object? grantedAt = freezed,Object? expiresAt = freezed,Object? createdAt = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,childId: null == childId ? _self.childId : childId // ignore: cast_nullable_to_non_nullable
+as String,grantedByParentId: freezed == grantedByParentId ? _self.grantedByParentId : grantedByParentId // ignore: cast_nullable_to_non_nullable
+as String?,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String?,durationMinutes: freezed == durationMinutes ? _self.durationMinutes : durationMinutes // ignore: cast_nullable_to_non_nullable
+as int?,grantedAt: freezed == grantedAt ? _self.grantedAt : grantedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,expiresAt: freezed == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PendingExtension].
+extension PendingExtensionPatterns on PendingExtension {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PendingExtension value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PendingExtension() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PendingExtension value)  $default,){
+final _that = this;
+switch (_that) {
+case _PendingExtension():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PendingExtension value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PendingExtension() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'child_id')  String childId, @JsonKey(name: 'granted_by_parent_id')  String? grantedByParentId,  String status,  String? reason, @JsonKey(name: 'duration_minutes')  int? durationMinutes, @JsonKey(name: 'granted_at')  DateTime? grantedAt, @JsonKey(name: 'expires_at')  DateTime? expiresAt, @JsonKey(name: 'created_at')  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PendingExtension() when $default != null:
+return $default(_that.id,_that.childId,_that.grantedByParentId,_that.status,_that.reason,_that.durationMinutes,_that.grantedAt,_that.expiresAt,_that.createdAt);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'child_id')  String childId, @JsonKey(name: 'granted_by_parent_id')  String? grantedByParentId,  String status,  String? reason, @JsonKey(name: 'duration_minutes')  int? durationMinutes, @JsonKey(name: 'granted_at')  DateTime? grantedAt, @JsonKey(name: 'expires_at')  DateTime? expiresAt, @JsonKey(name: 'created_at')  DateTime createdAt)  $default,) {final _that = this;
+switch (_that) {
+case _PendingExtension():
+return $default(_that.id,_that.childId,_that.grantedByParentId,_that.status,_that.reason,_that.durationMinutes,_that.grantedAt,_that.expiresAt,_that.createdAt);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'child_id')  String childId, @JsonKey(name: 'granted_by_parent_id')  String? grantedByParentId,  String status,  String? reason, @JsonKey(name: 'duration_minutes')  int? durationMinutes, @JsonKey(name: 'granted_at')  DateTime? grantedAt, @JsonKey(name: 'expires_at')  DateTime? expiresAt, @JsonKey(name: 'created_at')  DateTime createdAt)?  $default,) {final _that = this;
+switch (_that) {
+case _PendingExtension() when $default != null:
+return $default(_that.id,_that.childId,_that.grantedByParentId,_that.status,_that.reason,_that.durationMinutes,_that.grantedAt,_that.expiresAt,_that.createdAt);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _PendingExtension implements PendingExtension {
+  const _PendingExtension({required this.id, @JsonKey(name: 'child_id') required this.childId, @JsonKey(name: 'granted_by_parent_id') this.grantedByParentId, required this.status, this.reason, @JsonKey(name: 'duration_minutes') this.durationMinutes, @JsonKey(name: 'granted_at') this.grantedAt, @JsonKey(name: 'expires_at') this.expiresAt, @JsonKey(name: 'created_at') required this.createdAt});
+  factory _PendingExtension.fromJson(Map<String, dynamic> json) => _$PendingExtensionFromJson(json);
+
+@override final  String id;
+@override@JsonKey(name: 'child_id') final  String childId;
+@override@JsonKey(name: 'granted_by_parent_id') final  String? grantedByParentId;
+@override final  String status;
+@override final  String? reason;
+@override@JsonKey(name: 'duration_minutes') final  int? durationMinutes;
+@override@JsonKey(name: 'granted_at') final  DateTime? grantedAt;
+@override@JsonKey(name: 'expires_at') final  DateTime? expiresAt;
+@override@JsonKey(name: 'created_at') final  DateTime createdAt;
+
+/// Create a copy of PendingExtension
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PendingExtensionCopyWith<_PendingExtension> get copyWith => __$PendingExtensionCopyWithImpl<_PendingExtension>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PendingExtensionToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PendingExtension&&(identical(other.id, id) || other.id == id)&&(identical(other.childId, childId) || other.childId == childId)&&(identical(other.grantedByParentId, grantedByParentId) || other.grantedByParentId == grantedByParentId)&&(identical(other.status, status) || other.status == status)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.durationMinutes, durationMinutes) || other.durationMinutes == durationMinutes)&&(identical(other.grantedAt, grantedAt) || other.grantedAt == grantedAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,childId,grantedByParentId,status,reason,durationMinutes,grantedAt,expiresAt,createdAt);
+
+@override
+String toString() {
+  return 'PendingExtension(id: $id, childId: $childId, grantedByParentId: $grantedByParentId, status: $status, reason: $reason, durationMinutes: $durationMinutes, grantedAt: $grantedAt, expiresAt: $expiresAt, createdAt: $createdAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PendingExtensionCopyWith<$Res> implements $PendingExtensionCopyWith<$Res> {
+  factory _$PendingExtensionCopyWith(_PendingExtension value, $Res Function(_PendingExtension) _then) = __$PendingExtensionCopyWithImpl;
+@override @useResult
+$Res call({
+ String id,@JsonKey(name: 'child_id') String childId,@JsonKey(name: 'granted_by_parent_id') String? grantedByParentId, String status, String? reason,@JsonKey(name: 'duration_minutes') int? durationMinutes,@JsonKey(name: 'granted_at') DateTime? grantedAt,@JsonKey(name: 'expires_at') DateTime? expiresAt,@JsonKey(name: 'created_at') DateTime createdAt
+});
+
+
+
+
+}
+/// @nodoc
+class __$PendingExtensionCopyWithImpl<$Res>
+    implements _$PendingExtensionCopyWith<$Res> {
+  __$PendingExtensionCopyWithImpl(this._self, this._then);
+
+  final _PendingExtension _self;
+  final $Res Function(_PendingExtension) _then;
+
+/// Create a copy of PendingExtension
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? childId = null,Object? grantedByParentId = freezed,Object? status = null,Object? reason = freezed,Object? durationMinutes = freezed,Object? grantedAt = freezed,Object? expiresAt = freezed,Object? createdAt = null,}) {
+  return _then(_PendingExtension(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,childId: null == childId ? _self.childId : childId // ignore: cast_nullable_to_non_nullable
+as String,grantedByParentId: freezed == grantedByParentId ? _self.grantedByParentId : grantedByParentId // ignore: cast_nullable_to_non_nullable
+as String?,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String?,durationMinutes: freezed == durationMinutes ? _self.durationMinutes : durationMinutes // ignore: cast_nullable_to_non_nullable
+as int?,grantedAt: freezed == grantedAt ? _self.grantedAt : grantedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,expiresAt: freezed == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime,
   ));
 }
 

@@ -9,6 +9,16 @@ const _socketPath = String.fromEnvironment(
 
 final ipcClientProvider = FutureProvider<SsIpcClient>((ref) async {
   final c = await SsIpcClient.connect(_socketPath);
+  // Parent watches everything that can move under its feet. subscribe()
+  // is a notification (no response), fine to run pre-auth.
+  await c.subscribe(const [
+    'usageUpdate',
+    'policyChanged',
+    'extensionRequested',
+    'extensionApproved',
+    'extensionDenied',
+    'enforcementAction',
+  ]);
   ref.onDispose(c.close);
   return c;
 });

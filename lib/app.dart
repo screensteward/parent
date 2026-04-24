@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'screens/dashboard.dart';
+import 'screens/extensions.dart';
 import 'screens/login.dart';
 import 'screens/onboarding/wizard.dart';
+import 'screens/policy_editor.dart';
 import 'state/auth_controller.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -43,6 +45,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
       GoRoute(path: '/dashboard', builder: (_, _) => const DashboardScreen()),
+      GoRoute(
+        path: '/policy-editor',
+        builder: (_, _) => const PolicyEditorScreen(),
+      ),
+      GoRoute(
+        path: '/extensions',
+        builder: (_, _) => const ExtensionsScreen(),
+      ),
     ],
   );
 });

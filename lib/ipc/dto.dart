@@ -108,7 +108,7 @@ abstract class PolicyView with _$PolicyView {
   const factory PolicyView({
     required String id,
     @JsonKey(name: 'child_id') required String childId,
-    required Map<String, dynamic> scope,
+    @JsonKey(fromJson: _scopeFromJson) required Object scope,
     required List<Map<String, dynamic>> rules,
     required int priority,
     @JsonKey(name: 'active_from') DateTime? activeFrom,
@@ -116,4 +116,30 @@ abstract class PolicyView with _$PolicyView {
   }) = _PolicyView;
   factory PolicyView.fromJson(Map<String, dynamic> j) =>
       _$PolicyViewFromJson(j);
+}
+
+/// The server serialises `Scope::Child` as the bare string `"child"` and
+/// other variants as `{"device": {...}}` / `{"category": {...}}`. Accept
+/// both shapes without coercion.
+Object _scopeFromJson(Object? v) {
+  if (v is String) return v;
+  if (v is Map) return Map<String, dynamic>.from(v);
+  throw ArgumentError('Unrecognised scope payload: $v');
+}
+
+@freezed
+abstract class PendingExtension with _$PendingExtension {
+  const factory PendingExtension({
+    required String id,
+    @JsonKey(name: 'child_id') required String childId,
+    @JsonKey(name: 'granted_by_parent_id') String? grantedByParentId,
+    required String status,
+    String? reason,
+    @JsonKey(name: 'duration_minutes') int? durationMinutes,
+    @JsonKey(name: 'granted_at') DateTime? grantedAt,
+    @JsonKey(name: 'expires_at') DateTime? expiresAt,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+  }) = _PendingExtension;
+  factory PendingExtension.fromJson(Map<String, dynamic> j) =>
+      _$PendingExtensionFromJson(j);
 }

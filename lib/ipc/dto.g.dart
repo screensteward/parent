@@ -140,7 +140,7 @@ Map<String, dynamic> _$FamilySnapshotToJson(_FamilySnapshot instance) =>
 _PolicyView _$PolicyViewFromJson(Map<String, dynamic> json) => _PolicyView(
   id: json['id'] as String,
   childId: json['child_id'] as String,
-  scope: json['scope'] as Map<String, dynamic>,
+  scope: _scopeFromJson(json['scope']),
   rules: (json['rules'] as List<dynamic>)
       .map((e) => e as Map<String, dynamic>)
       .toList(),
@@ -162,4 +162,34 @@ Map<String, dynamic> _$PolicyViewToJson(_PolicyView instance) =>
       'priority': instance.priority,
       'active_from': instance.activeFrom?.toIso8601String(),
       'active_until': instance.activeUntil?.toIso8601String(),
+    };
+
+_PendingExtension _$PendingExtensionFromJson(Map<String, dynamic> json) =>
+    _PendingExtension(
+      id: json['id'] as String,
+      childId: json['child_id'] as String,
+      grantedByParentId: json['granted_by_parent_id'] as String?,
+      status: json['status'] as String,
+      reason: json['reason'] as String?,
+      durationMinutes: (json['duration_minutes'] as num?)?.toInt(),
+      grantedAt: json['granted_at'] == null
+          ? null
+          : DateTime.parse(json['granted_at'] as String),
+      expiresAt: json['expires_at'] == null
+          ? null
+          : DateTime.parse(json['expires_at'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String),
+    );
+
+Map<String, dynamic> _$PendingExtensionToJson(_PendingExtension instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'child_id': instance.childId,
+      'granted_by_parent_id': instance.grantedByParentId,
+      'status': instance.status,
+      'reason': instance.reason,
+      'duration_minutes': instance.durationMinutes,
+      'granted_at': instance.grantedAt?.toIso8601String(),
+      'expires_at': instance.expiresAt?.toIso8601String(),
+      'created_at': instance.createdAt.toIso8601String(),
     };
