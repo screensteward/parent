@@ -11,3 +11,6 @@ macos/Pods/
 
 # FVM Version Cache
 .fvm/
+
+# Claude Code agent context (local-only; public repos must not leak it)
+CLAUDE.md
