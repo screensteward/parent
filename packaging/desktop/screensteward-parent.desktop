@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ScreenSteward (parent)
+Comment=Temps d'écran — vue parent
+Exec=/usr/local/lib/screensteward-parent/screensteward_parent
+Icon=screensteward-parent
+Terminal=false
+Categories=Utility;
+StartupWMClass=screensteward_parent
