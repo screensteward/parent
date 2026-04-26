@@ -2,7 +2,7 @@ name: parent
 
 on:
   push:
-    branches: [main, phase1]
+    branches: [main, develop]
     paths-ignore:
       - '**/*.md'
       - 'LICENSE'
