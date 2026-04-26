@@ -1,0 +1,7 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>screensteward/renovate-config",
+    "github>screensteward/renovate-config:flutter"
+  ]
+}
